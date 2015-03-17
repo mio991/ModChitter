@@ -3,7 +3,7 @@
 using ICities;
 using ColossalFramework;
 
-//using TweetSharp;
+using TweetSharp;
 
 namespace Chitter
 {
@@ -11,9 +11,7 @@ namespace Chitter
     {
         private ChirpPanel m_Chirpy;
 
-        const string c_ConsumerKey = "8Kntx6wmiNs2IsZSkvoVodCpS";
-        const string c_ConsumerSecret = "a2NaZ3JkNTo7BNbEN8RssRzEBudAw1C2TujZgFNVbO8NmYnqsC";
-        //private TwitterService m_Service;
+        private TwitterService m_Service;
 
         public override void OnCreated(IChirper c)
         {
@@ -27,6 +25,8 @@ namespace Chitter
             {
                 DebugLogger.Log(MessageType.Message, "Start ChitterExtension");
                 m_Chirpy = Singleton<ChirpPanel>.instance;
+
+                m_Service = new TwitterService(ChitterSettings.Default.AppKey, ChitterSettings.Default.AppSecret);
                 
             }
             catch (Exception ex)
@@ -35,7 +35,7 @@ namespace Chitter
             }
         }
 
-        public void AddMessage(this IChirper chirper, IChirperMessage message, bool show)
+        public void AddMessage(IChirperMessage message, bool show)
         {
             m_Chirpy.AddMessage(message, show);
         }        

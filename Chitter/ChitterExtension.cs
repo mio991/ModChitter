@@ -27,6 +27,11 @@ namespace Chitter
                 m_Chirpy = Singleton<ChirpPanel>.instance;
 
                 m_Service = new TwitterService(ChitterSettings.Default.AppKey, ChitterSettings.Default.AppSecret);
+
+                if(ChitterSettings.Default.UserToken.IsNullOrWhiteSpace())
+                {
+
+                }
                 
             }
             catch (Exception ex)

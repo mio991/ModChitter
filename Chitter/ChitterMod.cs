@@ -11,7 +11,7 @@ namespace Chitter
             get 
             {
                 return "Chitter ";
-            }
+            } 
         }
 
         public string Description

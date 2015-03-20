@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChirperPipeTest", "ChirperP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChirperOutbound", "ChirperOutbound\ChirperOutbound.csproj", "{297154B1-8324-4F84-AE33-D0778CC851D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chitter", "Chitter\Chitter.csproj", "{90F238E9-3F99-4696-A6FB-0948B6442214}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{297154B1-8324-4F84-AE33-D0778CC851D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{297154B1-8324-4F84-AE33-D0778CC851D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{297154B1-8324-4F84-AE33-D0778CC851D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90F238E9-3F99-4696-A6FB-0948B6442214}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F238E9-3F99-4696-A6FB-0948B6442214}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90F238E9-3F99-4696-A6FB-0948B6442214}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90F238E9-3F99-4696-A6FB-0948B6442214}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,7 +2,7 @@
 
 using System.IO;
 
-namespace Chitter
+namespace ChirperOutbound
 {
     public class ChitterMod : IUserMod
     {

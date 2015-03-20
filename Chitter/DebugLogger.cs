@@ -7,7 +7,7 @@ using ColossalFramework;
 
 using MessageTypeInternal = ColossalFramework.Plugins.PluginManager.MessageType;
 
-namespace Chitter
+namespace ChirperOutbound
 {
     public static class DebugLogger
     {

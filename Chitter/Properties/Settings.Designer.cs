@@ -40,5 +40,16 @@ namespace Chitter.Properties {
                 return ((string)(this["ConsumerSecret"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::TweetSharp.OAuthAccessToken AccessToken {
+            get {
+                return ((global::TweetSharp.OAuthAccessToken)(this["AccessToken"]));
+            }
+            set {
+                this["AccessToken"] = value;
+            }
+        }
     }
 }

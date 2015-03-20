@@ -12,9 +12,13 @@ namespace Chitter
 {
     public partial class MainForm : Form
     {
+        private TwitterWorker m_Worker;
+
         public MainForm()
         {
             InitializeComponent();
+
+            var task = Task.Run<TwitterWorker>(() => { m_Worker = new TwitterWorker(); return m_Worker; });
         }
 
         private void OnClickClose(object sender, EventArgs e)
@@ -30,6 +34,11 @@ namespace Chitter
         private void OnSizeChanged(object sender, EventArgs e)
         {
             this.ShowInTaskbar = this.WindowState != FormWindowState.Minimized;
+        }
+
+        private void OnShowTweetLog(object sender, EventArgs e)
+        {
+
         }
     }
 }

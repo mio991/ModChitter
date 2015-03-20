@@ -8,5 +8,8 @@
     <Setting Name="ConsumerSecret" Type="System.String" Scope="Application">
       <Value Profile="(Default)">a2NaZ3JkNTo7BNbEN8RssRzEBudAw1C2TujZgFNVbO8NmYnqsC</Value>
     </Setting>
+    <Setting Name="AccessToken" Type="TweetSharp.OAuthAccessToken" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -39,6 +39,12 @@ namespace ChirperOutbound
             }
         }
 
+        public override void OnReleased()
+        {
+            m_MessageReader.Close();
+            base.OnReleased();
+        }
+
         private void ServerStreamConected(IAsyncResult result)
         {
             DebugLogger.Log(MessageType.Message, "Connection established");
@@ -50,6 +56,9 @@ namespace ChirperOutbound
 
                 ProcessMessage(message);
             }
+
+            DebugLogger.Log(MessageType.Message, "Begin Waiting for another Connection");
+            m_ServerStream.BeginWaitForConnection(ServerStreamConected, null);
         }
 
         private void ProcessMessage(string message)
@@ -60,7 +69,7 @@ namespace ChirperOutbound
             if (s.Length < 2)
                 throw new ArgumentException("Message has the Wrong Format");
 
-            AddMessage(new ChirperMessage(0, s[0], s[1]));
+            AddMessage(new ChirperMessage(0, s[0], s[1].Replace(@"\d", ":")));
         }
 
         public void AddMessage(IChirperMessage message, bool show = true)

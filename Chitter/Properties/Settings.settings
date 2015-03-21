@@ -11,5 +11,8 @@
     <Setting Name="AccessToken" Type="TweetSharp.OAuthAccessToken" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="PipeName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">chirper</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -19,11 +19,8 @@ namespace Chitter
         private StreamWriter m_Writer;
         private TwitterService m_Service;
 
-        public TwitterWorker()
+        public TwitterWorker(Stream stream)
         {
-            var stream = new NamedPipeClientStream("chirper");
-            stream.Connect();
-
             m_Writer = new StreamWriter(stream);
 
             m_Service = new TwitterService(Settings.Default.ConsumerKey, Settings.Default.ConsumerSecret);
@@ -52,6 +49,8 @@ namespace Chitter
                 var aToken = m_Service.GetAccessToken(rToken, authDialog.AuthoritationCode);
 
                 Settings.Default.AccessToken = aToken;
+
+                Settings.Default.Save();
             }
             
             return Settings.Default.AccessToken;

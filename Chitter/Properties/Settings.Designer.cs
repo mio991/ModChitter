@@ -51,5 +51,14 @@ namespace Chitter.Properties {
                 this["AccessToken"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("chirper")]
+        public string PipeName {
+            get {
+                return ((string)(this["PipeName"]));
+            }
+        }
     }
 }

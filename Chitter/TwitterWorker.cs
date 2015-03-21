@@ -29,6 +29,26 @@ namespace Chitter
 
             m_Service.AuthenticateWith(aToken.Token, aToken.TokenSecret);
 
+            m_Service.StreamUser(ProcessStreamResult);
+        }
+
+        private void ProcessStreamResult(TwitterStreamArtifact artifact, TwitterResponse response)
+        {
+            if (artifact is TwitterUserStreamStatus)
+            {
+                var tweet = ((TwitterUserStreamStatus)artifact).Status;
+
+                m_Writer.Write(tweet.Author);
+                m_Writer.Write(':');
+                m_Writer.WriteLine(tweet.Text.Replace(":", "\\d").Replace("\n", "\\n"));
+
+                m_Writer.Flush();
+            } 
+
+            if (!(artifact is TwitterUserStreamEnd))
+            {
+                m_Service.StreamUser(ProcessStreamResult);
+            }
         }
 
         private OAuthAccessToken GetAccessToken()
@@ -52,7 +72,7 @@ namespace Chitter
 
                 Settings.Default.Save();
             }
-            
+
             return Settings.Default.AccessToken;
         }
     }

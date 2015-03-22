@@ -38,7 +38,7 @@ namespace Chitter
             {
                 var tweet = ((TwitterUserStreamStatus)artifact).Status;
 
-                m_Writer.Write(tweet.Author);
+                m_Writer.Write(tweet.Author.ScreenName);
                 m_Writer.Write(':');
                 m_Writer.WriteLine(tweet.Text.Replace(":", "\\d").Replace("\n", "\\n"));
 
@@ -47,7 +47,7 @@ namespace Chitter
 
             if (!(artifact is TwitterUserStreamEnd))
             {
-                m_Service.StreamUser(ProcessStreamResult);
+                // TODO: May has to restart Stream don't seems necessary
             }
         }
 

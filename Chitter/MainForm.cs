@@ -15,9 +15,7 @@ namespace Chitter
 {
     public partial class MainForm : Form
     {
-        private StreamReader m_OutStream;
         private TwitterWorker m_TwitterWorker;
-        private Task m_ReaderTask;
 
         public MainForm()
         {
@@ -30,26 +28,19 @@ namespace Chitter
         {
                 var stream = new NamedPipeClientStream(Properties.Settings.Default.PipeName);
                 stream.Connect();
-
-                m_OutStream = new StreamReader(stream);
-
                 m_TwitterWorker = new TwitterWorker(stream);
-
-                m_ReaderTask = new Task(new Action(ReadStreamForever));
-                m_ReaderTask.Start();
+                m_TwitterWorker.MessageRecieved += m_TwitterWorker_MessageRecieved;
         }
 
-        private void ReadStreamForever()
+        void m_TwitterWorker_MessageRecieved(object sender, TweetSharp.TwitterStatus status)
         {
-            while(true)
+            if(this.InvokeRequired)
             {
-                Log(m_OutStream.ReadLine());
+                this.BeginInvoke(new Action<object, TweetSharp.TwitterStatus>(m_TwitterWorker_MessageRecieved), sender, status);
+                return;
             }
-        }
 
-        public void Log(string message)
-        {
-            txtBLog.AppendText(message);
+            rtxtBLog.AppendText(status.Author.ScreenName + ":\t" + status.Text + "\n");
         }
     }
 }

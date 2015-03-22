@@ -43,6 +43,11 @@ namespace Chitter
                 m_Writer.WriteLine(tweet.Text.Replace(":", "\\d").Replace("\n", "\\n"));
 
                 m_Writer.Flush();
+
+                if(MessageRecieved != null)
+                {
+                    MessageRecieved(this, tweet);
+                }
             } 
 
             if (!(artifact is TwitterUserStreamEnd))
@@ -50,6 +55,8 @@ namespace Chitter
                 // TODO: May has to restart Stream don't seems necessary
             }
         }
+
+        public event MessageRecieved MessageRecieved;
 
         private OAuthAccessToken GetAccessToken()
         {
@@ -76,4 +83,6 @@ namespace Chitter
             return Settings.Default.AccessToken;
         }
     }
+
+    public delegate void MessageRecieved(object sender, TwitterStatus status);
 }

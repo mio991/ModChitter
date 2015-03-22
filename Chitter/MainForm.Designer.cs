@@ -28,33 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtBLog = new System.Windows.Forms.TextBox();
+            this.rtxtBLog = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
-            // txtBLog
+            // rtxtBLog
             // 
-            this.txtBLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBLog.Location = new System.Drawing.Point(0, 0);
-            this.txtBLog.Multiline = true;
-            this.txtBLog.Name = "txtBLog";
-            this.txtBLog.Size = new System.Drawing.Size(284, 261);
-            this.txtBLog.TabIndex = 0;
+            this.rtxtBLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtxtBLog.Location = new System.Drawing.Point(0, 0);
+            this.rtxtBLog.Name = "rtxtBLog";
+            this.rtxtBLog.Size = new System.Drawing.Size(284, 261);
+            this.rtxtBLog.TabIndex = 0;
+            this.rtxtBLog.Text = "";
             // 
-            // TweetLog
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.txtBLog);
-            this.Name = "TweetLog";
+            this.Controls.Add(this.rtxtBLog);
+            this.Name = "MainForm";
             this.Text = "Chitter - Tweet Log";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtBLog;
+        private System.Windows.Forms.RichTextBox rtxtBLog;
+
     }
 }

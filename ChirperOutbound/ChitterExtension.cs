@@ -6,6 +6,9 @@ using System.IO;
 using ICities;
 using ColossalFramework;
 
+using System.Diagnostics;
+using System.Reflection;
+
 namespace ChirperOutbound
 {
     public class ChirperOutboundExtension : ChirperExtensionBase
@@ -32,6 +35,14 @@ namespace ChirperOutbound
 
                 DebugLogger.Log(MessageType.Message, "Begin Wait for Connections");
                 m_ServerStream.BeginWaitForConnection(ServerStreamConected, null);
+
+                var thisAssembly = Assembly.GetExecutingAssembly().Location;
+                DebugLogger.Message("Found myself at:\n\t\"" + thisAssembly + "\"");
+
+                var chitterExecutable = Path.GetDirectoryName(thisAssembly) + "\\Tools\\Chitter.exe";
+
+                DebugLogger.Message("Try Start Chitter Application at:\n\t\"" + chitterExecutable + "\"");
+                Process.Start(chitterExecutable);
             }
             catch (Exception ex) 
             {

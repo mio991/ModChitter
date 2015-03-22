@@ -69,7 +69,7 @@ namespace ChirperOutbound
             if (s.Length < 2)
                 throw new ArgumentException("Message has the Wrong Format");
 
-            AddMessage(new ChirperMessage(0, s[0], s[1].Replace(@"\d", ":")));
+            AddMessage(new ChirperMessage(0, s[0], s[1].Replace(@"\d", ":").Replace("\\n", "\n")));
         }
 
         public void AddMessage(IChirperMessage message, bool show = true)

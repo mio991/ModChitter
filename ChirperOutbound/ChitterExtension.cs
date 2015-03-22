@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Threading;
 
 using System.IO.Pipes;
 using System.IO;
@@ -16,6 +18,7 @@ namespace ChirperOutbound
         private ChirpPanel m_Chirpy;
         private NamedPipeServerStream m_ServerStream;
         private StreamReader m_MessageReader;
+        private Thread m_StreamReader;
 
         public override void OnCreated(IChirper c)
         {
@@ -33,18 +36,15 @@ namespace ChirperOutbound
                 DebugLogger.Log(MessageType.Message, "Start Pipe Server");
                 m_ServerStream = new NamedPipeServerStream("chirper", PipeDirection.In);
 
-                DebugLogger.Log(MessageType.Message, "Begin Wait for Connections");
-                m_ServerStream.BeginWaitForConnection(ServerStreamConected, null);
+                m_StreamReader = new Thread(StreamReader);
+                m_StreamReader.Start();
 
-                var thisAssembly = Assembly.GetExecutingAssembly().Location;
-                DebugLogger.Message("Found myself at:\n\t\"" + thisAssembly + "\"");
-
-                var chitterExecutable = Path.GetDirectoryName(thisAssembly) + "\\Tools\\Chitter.exe";
+                var chitterExecutable = Environment.ExpandEnvironmentVariables(@"%SteamPath%\SteamApps\workshop\content\%SteamGameId%\412019683\Tools\Chitter.exe");
 
                 DebugLogger.Message("Try Start Chitter Application at:\n\t\"" + chitterExecutable + "\"");
                 Process.Start(chitterExecutable);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 DebugLogger.Log(MessageType.Error, ex.Message);
             }
@@ -52,31 +52,37 @@ namespace ChirperOutbound
 
         public override void OnReleased()
         {
-            m_MessageReader.Close();
+            m_StreamReader.Abort();
             base.OnReleased();
         }
 
-        private void ServerStreamConected(IAsyncResult result)
+        private void StreamReader()
         {
-            DebugLogger.Log(MessageType.Message, "Connection established");
-            m_MessageReader = new StreamReader(m_ServerStream);
-
-            while (m_ServerStream.IsConnected)
+            try
             {
-                var message = m_MessageReader.ReadLine();
+                while (true)
+                {
+                    DebugLogger.Log(MessageType.Message, "Begin Wait for Connections");
+                    m_ServerStream.WaitForConnection();
 
-                try
-                {
-                    ProcessMessage(message);
-                }
-                catch(Exception ex)
-                {
-                    DebugLogger.Error(ex.Message);
+                    DebugLogger.Log(MessageType.Message, "Connection established");
+                    m_MessageReader = new StreamReader(m_ServerStream);
+
+                    while (m_ServerStream.IsConnected)
+                    {
+                        ProcessMessage(m_MessageReader.ReadLine());
+                    }
                 }
             }
-
-            DebugLogger.Log(MessageType.Message, "Begin Waiting for another Connection");
-            m_ServerStream.BeginWaitForConnection(ServerStreamConected, null);
+            catch (Exception ex)
+            {
+                DebugLogger.Error(ex.Message);
+            }
+            finally
+            {
+                m_MessageReader.Close();
+                m_ServerStream.Close();
+            }
         }
 
         private void ProcessMessage(string message)
@@ -85,7 +91,7 @@ namespace ChirperOutbound
 
             if (!message.Contains(":"))
                 throw new ArgumentException("Message has the Wrong Format");
-            
+
             var s = message.Split(':');
 
             if (s.Length < 2)

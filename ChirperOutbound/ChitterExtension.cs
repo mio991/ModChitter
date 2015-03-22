@@ -54,7 +54,14 @@ namespace ChirperOutbound
             {
                 var message = m_MessageReader.ReadLine();
 
-                ProcessMessage(message);
+                try
+                {
+                    ProcessMessage(message);
+                }
+                catch(Exception ex)
+                {
+                    DebugLogger.Error(ex.Message);
+                }
             }
 
             DebugLogger.Log(MessageType.Message, "Begin Waiting for another Connection");
@@ -64,6 +71,10 @@ namespace ChirperOutbound
         private void ProcessMessage(string message)
         {
             DebugLogger.Log(MessageType.Message, "Process Message: " + message);
+
+            if (!message.Contains(":"))
+                throw new ArgumentException("Message has the Wrong Format");
+            
             var s = message.Split(':');
 
             if (s.Length < 2)

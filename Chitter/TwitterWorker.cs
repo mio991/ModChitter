@@ -48,11 +48,6 @@ namespace Chitter
                 {
                     MessageRecieved(this, tweet);
                 }
-            } 
-
-            if (!(artifact is TwitterUserStreamEnd))
-            {
-                // TODO: May has to restart Stream don't seems necessary
             }
         }
 

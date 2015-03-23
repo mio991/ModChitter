@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Threading;
+using System.Linq;
 
 using System.IO.Pipes;
 using System.IO;
@@ -20,6 +21,9 @@ namespace ChirperOutbound
         private StreamReader m_MessageReader;
         private Thread m_StreamReader;
 
+        private string m_TempDir;
+        private Process m_Chitter;
+
         public override void OnCreated(IChirper c)
         {
             Init();
@@ -30,6 +34,20 @@ namespace ChirperOutbound
         {
             try
             {
+                DebugLogger.Message("Start Deploying Assemblys");
+                
+                m_TempDir = Environment.ExpandEnvironmentVariables(@"%TEMP%\ModChitter\");
+
+                if (Directory.Exists(m_TempDir))
+                    Directory.Delete(m_TempDir, true);
+
+                Directory.CreateDirectory(m_TempDir);
+
+                File.WriteAllBytes(m_TempDir + "Chitter.exe", Properties.Resources.Chitter);
+                File.WriteAllBytes(m_TempDir + "Hammock.ClientProfile.dll", Properties.Resources.Hammock_ClientProfile);
+                File.WriteAllBytes(m_TempDir + "Newtonsoft.Json.dll", Properties.Resources.Newtonsoft_Json);
+                File.WriteAllBytes(m_TempDir + "TweetSharp.dll", Properties.Resources.TweetSharp);
+
                 DebugLogger.Log(MessageType.Message, "Start Chirper Outbound");
                 m_Chirpy = Singleton<ChirpPanel>.instance;
 
@@ -39,10 +57,8 @@ namespace ChirperOutbound
                 m_StreamReader = new Thread(StreamReader);
                 m_StreamReader.Start();
 
-                var chitterExecutable = Environment.ExpandEnvironmentVariables(@"%SteamPath%\SteamApps\workshop\content\%SteamGameId%\412019683\Tools\Chitter.exe");
-
-                DebugLogger.Message("Try Start Chitter Application at:\n\t\"" + chitterExecutable + "\"");
-                Process.Start(chitterExecutable);
+                DebugLogger.Message("Try Start Chitter Application at:\n\t\"" + m_TempDir + "Chitter.exe" + "\"");
+                m_Chitter = Process.Start(m_TempDir + "Chitter.exe");
             }
             catch (Exception ex)
             {
@@ -53,6 +69,11 @@ namespace ChirperOutbound
         public override void OnReleased()
         {
             m_StreamReader.Abort();
+
+            if (!m_Chitter.HasExited)
+                m_Chitter.Kill();
+
+            Directory.Delete(m_TempDir, true);
             base.OnReleased();
         }
 
@@ -78,11 +99,9 @@ namespace ChirperOutbound
             {
                 DebugLogger.Error(ex.Message);
             }
-            finally
-            {
+
                 m_MessageReader.Close();
                 m_ServerStream.Close();
-            }
         }
 
         private void ProcessMessage(string message)

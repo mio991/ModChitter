@@ -124,8 +124,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y "$(TargetPath)" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\Tools\"
-xcopy /Y "$(TargetPath)" "C:\Program Files (x86)\Steam\SteamApps\workshop\content\255710\412019683\Tools"</PostBuildEvent>
+    <PostBuildEvent>xcopy /Y "$(TargetDir)*.dll" "$(SolutionDir)ChirperOutbound\Resources\"
+xcopy /Y "$(TargetPath)" "$(SolutionDir)ChirperOutbound\Resources\"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

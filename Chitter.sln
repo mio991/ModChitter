@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChirperPipeTest", "ChirperPipeTest\ChirperPipeTest.csproj", "{5E4368AE-1475-41BB-8B9F-AD43374ACA35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChirperOutbound", "ChirperOutbound\ChirperOutbound.csproj", "{297154B1-8324-4F84-AE33-D0778CC851D8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{90F238E9-3F99-4696-A6FB-0948B6442214} = {90F238E9-3F99-4696-A6FB-0948B6442214}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chitter", "Chitter\Chitter.csproj", "{90F238E9-3F99-4696-A6FB-0948B6442214}"
 EndProject

@@ -26,21 +26,32 @@ namespace Chitter
 
         private void InitStream()
         {
-                var stream = new NamedPipeClientStream(Properties.Settings.Default.PipeName);
-                stream.Connect();
-                m_TwitterWorker = new TwitterWorker(stream);
-                m_TwitterWorker.MessageRecieved += m_TwitterWorker_MessageRecieved;
+#if !NOCS
+            var stream = new NamedPipeClientStream(Properties.Settings.Default.PipeName);
+            stream.Connect();
+#else
+            var stream = new MemoryStream();
+#endif
+            m_TwitterWorker = new TwitterWorker(stream);
+            m_TwitterWorker.MessageRecieved += m_TwitterWorker_MessageRecieved;
         }
 
         void m_TwitterWorker_MessageRecieved(object sender, TweetSharp.TwitterStatus status)
         {
-            if(this.InvokeRequired)
+            if (this.InvokeRequired)
             {
                 this.BeginInvoke(new Action<object, TweetSharp.TwitterStatus>(m_TwitterWorker_MessageRecieved), sender, status);
                 return;
             }
 
-            rtxtBLog.AppendText(status.Author.ScreenName + ":\t" + status.Text + "\n");
+            var tweet = new TweetControl();
+            tweet.Author = status.Author.ScreenName;
+            tweet.Message = status.Text;
+
+            tweet.Dock = DockStyle.Top;
+
+            tlpMain.Controls.Add(tweet, 0, tlpMain.RowCount);
+
         }
     }
 }

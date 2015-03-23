@@ -34,6 +34,16 @@
   <PropertyGroup>
     <ApplicationIcon>Chitter.Icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithOutCS|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugWithOutCS\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;/define NOCS</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hammock.ClientProfile">
       <HintPath>..\packages\TweetSharp.2.3.1\lib\4.0\Hammock.ClientProfile.dll</HintPath>
@@ -70,6 +80,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TweetControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TweetControl.Designer.cs">
+      <DependentUpon>TweetControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="TwitterWorker.cs" />
     <EmbeddedResource Include="AuthorisationDialog.resx">
       <DependentUpon>AuthorisationDialog.cs</DependentUpon>
@@ -85,6 +101,9 @@
     </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TweetControl.resx">
+      <DependentUpon>TweetControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -107,6 +126,10 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy /Y "$(TargetPath)" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\Tools\"
 xcopy /Y "$(TargetPath)" "C:\Program Files (x86)\Steam\SteamApps\workshop\content\255710\412019683\Tools"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

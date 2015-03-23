@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 using System.IO;
 using System.IO.Pipes;
@@ -65,10 +65,17 @@ namespace Chitter
 
                 var authDialog = new AuthorisationDialog();
 
-                if (authDialog.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+                authDialog.BringToFront();
+
+                var result = authDialog.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.Cancel)
                     throw new OperationCanceledException("User Canceld Login Process");
 
                 var aToken = m_Service.GetAccessToken(rToken, authDialog.AuthoritationCode);
+
+                if (aToken == null)
+                    throw new NullReferenceException("Couldn't aquiere Access Token");
 
                 Settings.Default.AccessToken = aToken;
 

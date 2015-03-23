@@ -32,8 +32,15 @@ namespace Chitter
 #else
             var stream = new MemoryStream();
 #endif
-            m_TwitterWorker = new TwitterWorker(stream);
-            m_TwitterWorker.MessageRecieved += m_TwitterWorker_MessageRecieved;
+            try
+            {
+                m_TwitterWorker = new TwitterWorker(stream);
+                m_TwitterWorker.MessageRecieved += m_TwitterWorker_MessageRecieved;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         void m_TwitterWorker_MessageRecieved(object sender, TweetSharp.TwitterStatus status)

@@ -36,11 +36,18 @@ namespace Chitter
             {
                 m_TwitterWorker = new TwitterWorker(stream);
                 m_TwitterWorker.MessageRecieved += m_TwitterWorker_MessageRecieved;
+                this.Invoke(new Action(this.LoadServiceInfo));
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Invoke(new Action(this.Close));
             }
+        }
+
+        void LoadServiceInfo()
+        {
+            lblUserName.Text = m_TwitterWorker.UserName;
         }
 
         void m_TwitterWorker_MessageRecieved(object sender, TweetSharp.TwitterStatus status)

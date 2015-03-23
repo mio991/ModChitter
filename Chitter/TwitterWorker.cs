@@ -27,6 +27,8 @@ namespace Chitter
 
             var aToken = GetAccessToken();
 
+            UserName = aToken.ScreenName;
+
             m_Service.AuthenticateWith(aToken.Token, aToken.TokenSecret);
 
             m_Service.StreamUser(ProcessStreamResult);
@@ -83,6 +85,12 @@ namespace Chitter
             }
 
             return Settings.Default.AccessToken;
+        }
+
+        public string UserName
+        {
+            get;
+            private set;
         }
     }
 

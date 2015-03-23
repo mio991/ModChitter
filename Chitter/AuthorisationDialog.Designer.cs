@@ -117,6 +117,7 @@
             this.Name = "AuthorisationDialog";
             this.ShowIcon = false;
             this.Text = "Input Authorisation Dialog";
+            this.TopMost = true;
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
